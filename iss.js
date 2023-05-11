@@ -1,6 +1,7 @@
 // Contain most logic for fetching data from API endpoints.
 const request = require('request');
 
+// API request to get IP address
 const fetchMyIP = (callback) => {
   request('https://api.ipify.org?format=json', (error, response, body) => {
     if (error) {
@@ -19,7 +20,29 @@ const fetchMyIP = (callback) => {
   });
 };
 
+// API request to get coordinates based on IP address
+const fetchCoordsByIP = (ip, callback) => {
+  request(`http://ipwho.is/${ip}`, (error, response, body) => {
 
-module.exports = { fetchMyIP };
+    if (error) {
+      return callback(error, null);
+    }
 
-// 'https://api.ipify.org?format=json'
+    body = JSON.parse(body);
+    if (!body.success) {
+      const msg = `Error when fetching coordinates. Response ${body.message} when looking for ${body.ip}`;
+      callback(Error(msg), null);
+      return;
+    }
+
+    const coords = {
+      latitude: body.latitude,
+      longitude: body.longitude
+    };
+    callback(null, coords);
+    return;
+  });
+};
+
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
