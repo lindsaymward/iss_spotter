@@ -90,5 +90,3 @@ const fetchISSFlyOverTimes = (coords, callback) => {
 
 
 module.exports = { nextISSTimesForMyLocation };
-
-// https://iss-flyover.herokuapp.com/json/?lat=YOUR_LAT_INPUT_HERE&lon=YOUR_LON_INPUT_HERE
