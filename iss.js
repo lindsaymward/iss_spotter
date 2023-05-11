@@ -1,6 +1,30 @@
 // Contain most logic for fetching data from API endpoints.
 const request = require('request');
 
+// Orchestrates the multiple API requests to get the next 5 ISS fly overs based on current location
+const nextISSTimesForMyLocation = function(callback) {
+  fetchMyIP((error, ip) => {
+    if (error) {
+      return callback(error, null);
+    }
+
+    fetchCoordsByIP(ip, (error, coordinates) => {
+      if (error) {
+        return callback(error, null);
+      }
+
+      fetchISSFlyOverTimes(coordinates, (error, times) => {
+        if (error) {
+          return callback(error, null);
+        }
+
+        return callback(null, times);
+      });
+    });
+  });
+};
+
+
 // API request to get IP address
 const fetchMyIP = (callback) => {
   request('https://api.ipify.org?format=json', (error, response, body) => {
@@ -65,6 +89,6 @@ const fetchISSFlyOverTimes = (coords, callback) => {
 };
 
 
-module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
+module.exports = { nextISSTimesForMyLocation };
 
 // https://iss-flyover.herokuapp.com/json/?lat=YOUR_LAT_INPUT_HERE&lon=YOUR_LON_INPUT_HERE
