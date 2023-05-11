@@ -26,6 +26,7 @@ const fetchCoordsByIP = (ip, callback) => {
 
     if (error) {
       return callback(error, null);
+      return;
     }
 
     body = JSON.parse(body);

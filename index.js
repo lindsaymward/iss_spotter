@@ -12,12 +12,12 @@ const { fetchCoordsByIP } = require('./iss');
 //   console.log('It worked! Returned IP:' , ip);
 // });
 
-// fetchCoordsByIP("24.68.71.207", (error, data) => {
+// fetchCoordsByIP("24.68.71.207", (error, coordinates) => {
 //   if (error) {
 //     console.log(error);
 //     return;
 //   }
 
-//   console.log("Here you go: ", data);
+//   console.log("Here you go: ", coordinates);
 // });
 
